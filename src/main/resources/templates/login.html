@@ -1,8 +1,16 @@
 <#include "header.html">
+<style>
+	input { margin-bottom: 8px; }
+</style>
 
 <div class="container">
 	<h1>Log In</h1>
-	<button class="btn btn-primary">Refresh</button>
+	<form method="post">
+		<input name="email" class="form-control">
+		<input name="password" class="form-control"
+			   type="password">
+		<button class="btn btn-primary">Log In</button>
+	</form>
 </div>
 
 <#include "footer.html">

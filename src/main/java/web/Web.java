@@ -11,6 +11,20 @@ class Web {
 	String showLogInPage() {
 		return "login";
 	}
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	String checkLogIn(String email, String password) {
+		boolean correct = false;
+		if (email.equals("mark@fb.com") && 
+			password.equals("mark123")) {
+			correct = true;
+		}
+		if (correct) {
+			return "redirect:/profile";
+		} else {
+			return "redirect:/login";
+		}
+	}
+			
 	@RequestMapping("/register")
 	String showRegisterPage() {
 		return "register";
