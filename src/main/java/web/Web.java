@@ -12,13 +12,16 @@ class Web {
 		} catch (Exception e) { }
 	}
 	
+	String server = "jdbc:mysql://35.185.137.11/web";
+	String user = "web";
+	String password = "java";
+	
 	@RequestMapping("/test") @ResponseBody
 	LinkedList showTest() {
 		LinkedList list = new LinkedList();
 		try {
 			Connection c = DriverManager.getConnection(
-				"jdbc:mysql://35.185.137.11/web",
-				"web", "java");
+				server, user, password);
 			Statement s = c.createStatement();
 			ResultSet r = s.executeQuery(
 				"select * from member");
