@@ -109,7 +109,8 @@ class Web {
 		}
 	}
 	@RequestMapping("/logout")
-	String showLogOutPage() {
+	String showLogOutPage(HttpSession session) {
+		session.removeAttribute("member");
 		return "logout";
 	}
 }
