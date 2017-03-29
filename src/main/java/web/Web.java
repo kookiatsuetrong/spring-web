@@ -2,6 +2,7 @@ package web;
 import java.sql.*;
 import java.util.*;
 import javax.servlet.http.*;
+import org.springframework.ui.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 @Controller
@@ -48,11 +49,25 @@ class Web {
 	String checkLogIn(String email, String password,
 			HttpSession session) {
 		boolean correct = false;
-		if (email.equals("mark@fb.com") && 
-			password.equals("mark123")) {
-			session.setAttribute("email", "mark@fb.com");
-			correct = true;
-		}
+		String sql = "select * from member where " +
+				"email = ? and password = sha2(?, 512)";
+		try {
+			Connection c = DriverManager.getConnection(
+					server, user, this.password);
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, email);
+			p.setString(2, password);
+			ResultSet r = p.executeQuery();
+			if (r.next()) {
+				Member m = new Member();
+				m.name = r.getString("name");
+				m.email = r.getString("email");
+				m.password = r.getString("password");
+				session.setAttribute("member", m);
+				correct = true;
+			}
+			r.close(); p.close(); c.close();
+		} catch (Exception e) { }
 		if (correct) {
 			return "redirect:/profile";
 		} else {
@@ -84,11 +99,12 @@ class Web {
 	}
 	
 	@RequestMapping("/profile")
-	String showProfilePage(HttpSession session) {
-		String e = (String)session.getAttribute("email");
-		if (e == null) {
+	String showProfilePage(HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("member");
+		if (m == null) {
 			return "redirect:/login";
 		} else {
+			model.addAttribute("name", m.name);
 			return "profile";
 		}
 	}
@@ -96,4 +112,10 @@ class Web {
 	String showLogOutPage() {
 		return "logout";
 	}
+}
+
+class Member {
+	String name;
+	String email;
+	String password;
 }
