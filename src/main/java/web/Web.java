@@ -64,6 +64,25 @@ class Web {
 	String showRegisterPage() {
 		return "register";
 	}
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	String createNewMember(String name,
+			String email, String password) {
+		String sql = "insert into member" +
+				"(name, email,password) " +
+				"values(?,?, sha2(?, 512) )";
+		try {
+			Connection c = DriverManager.getConnection(
+				server, user, this.password);
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, name);
+			p.setString(2, email);
+			p.setString(3, password);
+			p.execute();
+			p.close(); c.close();
+		} catch (Exception e) { }
+		return "redirect:/login";
+	}
+	
 	@RequestMapping("/profile")
 	String showProfilePage(HttpSession session) {
 		String e = (String)session.getAttribute("email");
