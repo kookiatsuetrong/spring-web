@@ -210,11 +210,26 @@ class Web {
 			return "redirect:/view/" + topic;
 		}
 	}
-}
-
-class Member {
-	long code;
-	String name;
-	String email;
-	String password;
+	
+	@RequestMapping("/member/{code}")
+	String showMember(Model model,
+			@PathVariable long code) {
+		Member m = new Member();
+		String sql = "select * from member where code=?";
+		try {
+			Connection c = DriverManager.getConnection(
+				server, user, password);
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setLong(1, code);
+			ResultSet r = p.executeQuery();
+			if (r.next()) {
+				m.code = r.getLong("code");
+				m.name = r.getString("name");
+				m.email = r.getString("email");
+			}
+			r.close(); p.close(); c.close();
+		} catch (Exception e) { }
+		model.addAttribute("member", m);
+		return "member";
+	}
 }
