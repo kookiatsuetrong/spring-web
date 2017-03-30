@@ -153,7 +153,10 @@ class Web {
 				"(select name from member where " +
 				"member.code=topic.member) as member_name " +
 				"from topic where code=?";
-		String sql2 = "select * from comment where topic=?";
+		String sql2 = "select *, " +
+				"(select name from member where member.code=comment.member) " +
+				"as member_name " +
+				"from comment where topic=?";
 		try {
 			Connection c = DriverManager.getConnection(
 				server, user, password);
@@ -177,6 +180,7 @@ class Web {
 				c2.code = r2.getLong("code");
 				c2.detail = r2.getString("detail");
 				c2.member = r2.getLong("member");
+				c2.memberName = r2.getString("member_name");
 				comment.add(c2);
 			}
 			c.close();

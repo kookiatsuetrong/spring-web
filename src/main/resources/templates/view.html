@@ -18,6 +18,9 @@
 	
 		<#list comment as c>
 			<i>${c.detail}</i>
+			<a href="/member/${c.member}">
+				${c.memberName}
+			</a>
 			<br>
 		</#list>
 
