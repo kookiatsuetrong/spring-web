@@ -143,6 +143,27 @@ class Web {
 			return "redirect:/profile";
 		}
 	}
+	
+	@RequestMapping("/view/{code}")
+	String viewTopic(Model model, @PathVariable long code) {
+		Topic t = new Topic();
+		String sql = "select * from topic where code=?";
+		try {
+			Connection c = DriverManager.getConnection(
+				server, user, password);
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setLong(1, code);
+			ResultSet r = p.executeQuery();
+			if (r.next()) {
+				t.code = r.getLong("code");
+				t.title = r.getString("title");
+				t.detail = r.getString("detail");			
+			}
+			r.close(); p.close(); c.close();
+		} catch (Exception e) { }
+		model.addAttribute("topic", t);
+		return "view";
+	}
 }
 
 class Member {
