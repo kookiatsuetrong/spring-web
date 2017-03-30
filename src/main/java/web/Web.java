@@ -145,7 +145,8 @@ class Web {
 	}
 	
 	@RequestMapping("/view/{code}")
-	String viewTopic(Model model, @PathVariable long code) {
+	String viewTopic(Model model, HttpSession session,
+			@PathVariable long code) {
 		Topic t = new Topic();
 		String sql = "select * from topic where code=?";
 		try {
@@ -161,6 +162,8 @@ class Web {
 			}
 			r.close(); p.close(); c.close();
 		} catch (Exception e) { }
+		Member m = (Member)session.getAttribute("member");
+		model.addAttribute("member", m);
 		model.addAttribute("topic", t);
 		return "view";
 	}

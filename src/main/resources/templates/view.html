@@ -1,5 +1,7 @@
 <#include "header.html">
-
+<style>
+	textarea { margin-bottom: 8px; }
+</style>
 <div class="container">
 	<#if topic.code == 0>
 	<b>Not Found</b>
@@ -9,6 +11,21 @@
     <p>${topic.detail}</p>
 	</#if>
 </div>
+
+<#if member??>
+<div class="container">
+	<form method="post">
+		<textarea class="form-control"></textarea>
+		<button class="btn btn-primary">Comment</button>
+	</form>
+</div>
+<#else>
+<div class="container">
+	<a href="/login" class="btn btn-outline-primary">
+		Log In to Comment
+	</a>
+</div>
+</#if>
 
 <#include "footer.html">
 

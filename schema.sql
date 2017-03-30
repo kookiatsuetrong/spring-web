@@ -22,3 +22,10 @@ alter table topic add member bigint;
 insert into topic(title, detail)
 values('Welcome', 'Welcome to the first topic');
 update topic set member=1 where code=1;
+
+create table comment(
+	code serial,
+	detail varchar(8000),
+	topic bigint,
+	member bigint
+);
