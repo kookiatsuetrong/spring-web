@@ -111,6 +111,16 @@ class Web {
 		session.removeAttribute("member");
 		return "logout";
 	}
+	
+	@RequestMapping("/new")
+	String showNewTopicPage(HttpSession session) {
+		Member m = (Member)session.getAttribute("member");
+		if (m == null) {
+			return "redirect:/login";
+		} else {
+			return "new";
+		}
+	}
 }
 
 class Member {
