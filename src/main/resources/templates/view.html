@@ -10,6 +10,12 @@
     <br>
     <p>${topic.detail}</p>
 	
+	<p>Posted by 
+		<a href="/member/${topic.member}">
+		${topic.memberName}
+		</a>
+	</p>
+	
 		<#list comment as c>
 			<i>${c.detail}</i>
 			<br>

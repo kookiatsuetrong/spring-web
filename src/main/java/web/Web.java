@@ -149,7 +149,10 @@ class Web {
 			@PathVariable long code) {
 		LinkedList comment = new LinkedList();
 		Topic t = new Topic();
-		String sql = "select * from topic where code=?";
+		String sql = "select *, " +
+				"(select name from member where " +
+				"member.code=topic.member) as member_name " +
+				"from topic where code=?";
 		String sql2 = "select * from comment where topic=?";
 		try {
 			Connection c = DriverManager.getConnection(
@@ -160,7 +163,9 @@ class Web {
 			if (r.next()) {
 				t.code = r.getLong("code");
 				t.title = r.getString("title");
-				t.detail = r.getString("detail");			
+				t.detail = r.getString("detail");
+				t.member = r.getLong("member");
+				t.memberName = r.getString("member_name");
 			}
 			r.close(); p.close();
 			
