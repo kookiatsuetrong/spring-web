@@ -13,7 +13,7 @@ class Web {
 		} catch (Exception e) { }
 	}
 	
-	String server = "jdbc:mysql://35.185.137.11/web";
+	String server = "jdbc:mysql://35.185.137.11/web?characterEncoding=UTF-8";
 	String user = "web";
 	String password = "java";
 	
