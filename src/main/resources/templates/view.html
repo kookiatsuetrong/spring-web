@@ -9,23 +9,26 @@
     <b>${topic.title}</b>
     <br>
     <p>${topic.detail}</p>
+
+		<#if member??>
+		<form method="post" action="/post-comment">
+			<input type="hidden" name="topic" 
+				   value="${topic.code}">
+			<textarea class="form-control"
+					  name="detail"
+					  placeholder="Your comment"
+					  rows="3"></textarea>
+			<button class="btn btn-primary">Comment</button>
+		</form>
+		<#else>
+		<a href="/login" class="btn btn-outline-primary">
+			Log In to Comment
+		</a>
+		</#if>
+
 	</#if>
 </div>
 
-<#if member??>
-<div class="container">
-	<form method="post">
-		<textarea class="form-control"></textarea>
-		<button class="btn btn-primary">Comment</button>
-	</form>
-</div>
-<#else>
-<div class="container">
-	<a href="/login" class="btn btn-outline-primary">
-		Log In to Comment
-	</a>
-</div>
-</#if>
 
 <#include "footer.html">
 

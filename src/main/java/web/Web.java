@@ -167,6 +167,29 @@ class Web {
 		model.addAttribute("topic", t);
 		return "view";
 	}
+	
+	@RequestMapping(value="/post-comment", method=RequestMethod.POST)
+	String postComment(HttpSession session, 
+			long topic, String detail) {
+		Member m = (Member)session.getAttribute("member");
+		if (m == null) {
+			return "redirect:/login";
+		} else {
+			String sql = "insert into comment" + 
+					"(detail, topic, member) " +
+					"values(?,?,?)";
+			try {
+				Connection c = DriverManager.getConnection(
+					server, user, password);
+				PreparedStatement p = c.prepareStatement(sql);
+				p.setString(1, detail);
+				p.setLong(2, topic);
+				p.setLong(3, m.code);
+				p.execute();
+			} catch (Exception e) { }
+			return "redirect:/view/" + topic;
+		}
+	}
 }
 
 class Member {
