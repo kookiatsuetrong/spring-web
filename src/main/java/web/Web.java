@@ -58,6 +58,7 @@ class Web {
 			ResultSet r = p.executeQuery();
 			if (r.next()) {
 				Member m = new Member();
+				m.code = r.getLong("code");
 				m.name = r.getString("name");
 				m.email = r.getString("email");
 				m.password = r.getString("password");
@@ -121,9 +122,31 @@ class Web {
 			return "new";
 		}
 	}
+	@RequestMapping(value="/new", method=RequestMethod.POST)
+	String saveNewTopic(HttpSession session,
+		String title, String detail) {
+		Member m = (Member)session.getAttribute("member");
+		if (m == null) {
+			return "redirect:/login";
+		} else {
+			String sql = "insert into topic(title,detail,member) " +
+					"values(?,?,?) ";
+			try {
+				Connection c = DriverManager.getConnection(
+						server, user, password);
+				PreparedStatement p = c.prepareStatement(sql);
+				p.setString(1, title);
+				p.setString(2, detail);
+				p.setLong(3, m.code);
+				p.execute();
+			} catch (Exception e) { }
+			return "redirect:/profile";
+		}
+	}
 }
 
 class Member {
+	long code;
 	String name;
 	String email;
 	String password;

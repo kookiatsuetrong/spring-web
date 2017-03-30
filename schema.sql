@@ -17,6 +17,8 @@ create table topic(
 	title varchar(1000),
 	detail varchar(8000)
 );
+alter table topic add member bigint;
 
 insert into topic(title, detail)
 values('Welcome', 'Welcome to the first topic');
+update topic set member=1 where code=1;
