@@ -9,6 +9,11 @@
     <b>${topic.title}</b>
     <br>
     <p>${topic.detail}</p>
+	
+		<#list comment as c>
+			<i>${c.detail}</i>
+			<br>
+		</#list>
 
 		<#if member??>
 		<form method="post" action="/post-comment">

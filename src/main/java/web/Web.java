@@ -147,8 +147,10 @@ class Web {
 	@RequestMapping("/view/{code}")
 	String viewTopic(Model model, HttpSession session,
 			@PathVariable long code) {
+		LinkedList comment = new LinkedList();
 		Topic t = new Topic();
 		String sql = "select * from topic where code=?";
+		String sql2 = "select * from comment where topic=?";
 		try {
 			Connection c = DriverManager.getConnection(
 				server, user, password);
@@ -160,11 +162,24 @@ class Web {
 				t.title = r.getString("title");
 				t.detail = r.getString("detail");			
 			}
-			r.close(); p.close(); c.close();
+			r.close(); p.close();
+			
+			PreparedStatement p2 = c.prepareStatement(sql2);
+			p2.setLong(1, code);
+			ResultSet r2 = p2.executeQuery();
+			while (r2.next()) {
+				Comment c2 = new Comment();
+				c2.code = r2.getLong("code");
+				c2.detail = r2.getString("detail");
+				c2.member = r2.getLong("member");
+				comment.add(c2);
+			}
+			c.close();
 		} catch (Exception e) { }
 		Member m = (Member)session.getAttribute("member");
 		model.addAttribute("member", m);
 		model.addAttribute("topic", t);
+		model.addAttribute("comment", comment);
 		return "view";
 	}
 	
