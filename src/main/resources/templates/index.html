@@ -1,21 +1,16 @@
 <#include "header.html">
 
-<style>
-	#content-1 { background: lightblue; height: 150px; }
-	#content-2 { background: lightpink; height: 150px; }
-	#content-3 { background: darkgray; height: 150px; }
-	#content-4 { background: lightgreen; height: 150px; }
-</style>
-
 <div class="container">
 	<h1>Welcome</h1>
 	
-	<div class="row">
-		<div id="content-1" class="col-12 col-sm-6 col-md-12 col-lg-4 col-xl-3"> Content 1 </div>
-		<div id="content-2" class="col-12 col-sm-6 col-md-6  col-lg-8 col-xl-3"> Content 2 </div>
-		<div id="content-3" class="col-12 col-sm-6 col-md-6  col-lg-8 col-xl-3"> Content 3 </div>
-		<div id="content-4" class="col-12 col-sm-6 col-md-12 col-lg-4 col-xl-3"> Content 4 </div>
-	</div>
+
+	<#list topic as t>
+		<b>${t.title}</b>
+		<br>
+		${t.detail}
+		<br>
+	</#list>
+	
 </div>
 
 <#include "footer.html">
