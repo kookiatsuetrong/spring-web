@@ -1,7 +1,9 @@
 <#include "header.html">
 
 <div class="container">
-	<#if topic?? >
+	<#if topic.code == 0>
+	<b>Not Found</b>
+	<#else>
     <b>${topic.title}</b>
     <br>
     <p>${topic.detail}</p>

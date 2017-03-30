@@ -10,9 +10,7 @@
 	<br>
 
 	<#list topic as t>
-		<b>${t.title}</b>
-		<br>
-		${t.detail}
+		<a href="/view/${t.code}">${t.title}</a>
 		<br>
 	</#list>
 	
