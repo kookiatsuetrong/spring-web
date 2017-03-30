@@ -17,28 +17,26 @@ class Web {
 	String user = "web";
 	String password = "java";
 	
-	@RequestMapping("/test") @ResponseBody
-	LinkedList showTest() {
+	@RequestMapping("/")
+	String showHome(Model model) {
 		LinkedList list = new LinkedList();
+		String sql = "select * from topic";
 		try {
-			Connection c = DriverManager.getConnection(
-				server, user, password);
+			Connection c = DriverManager
+					.getConnection(
+					server, user, password);
 			Statement s = c.createStatement();
-			ResultSet r = s.executeQuery(
-				"select * from member");
+			ResultSet r = s.executeQuery(sql);
 			while (r.next()) {
-				String email = r.getString("email");
-				list.add(email);
+				Topic t = new Topic();
+				t.code = r.getLong("code");
+				t.title = r.getString("title");
+				t.detail = r.getString("detail");
+				list.add(t);
 			}
 			r.close(); s.close(); c.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return list;
-	}
-	
-	@RequestMapping("/")
-	String showHome() {
+		} catch (Exception e) { }
+		model.addAttribute("topic", list);
 		return "index";
 	}
 	@RequestMapping("/login")
